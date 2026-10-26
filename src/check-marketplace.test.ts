@@ -53,10 +53,13 @@ const validRepo = (): Files => ({
   'README.md': readme(catalogOf({ alpha: ['first'] })),
 })
 
-const errors = (files: Files) =>
+const findingsAt = (level: 'error' | 'warning') => (files: Files) =>
   checkMarketplace(writeRepo(files))
-    .filter((f) => f.level === 'error')
+    .filter((f) => f.level === level)
     .map((f) => `${f.file}: ${f.message}`)
+
+const errors = findingsAt('error')
+const warnings = findingsAt('warning')
 
 describe('checkMarketplace', () => {
   test('accepts a consistent repo', () => {
@@ -171,6 +174,36 @@ describe('checkMarketplace', () => {
   test('reports a top-level bin/ in a plugin', () => {
     expect(errors({ ...validRepo(), 'plugins/alpha/bin/run.sh': 'echo hi\n' })).toEqual([
       'plugins/alpha/bin: claude.ai rejects a plugin with a top-level bin/ directory; use scripts/',
+    ])
+  })
+
+  test('warns, without failing, when a plugin ships hooks or MCP servers', () => {
+    const files = {
+      ...validRepo(),
+      'plugins/alpha/hooks/hooks.json': json({ hooks: {} }),
+      'plugins/alpha/.mcp.json': json({ mcpServers: {} }),
+    }
+    expect(errors(files)).toEqual([])
+    expect(warnings(files)).toEqual([
+      "plugins/alpha/hooks: hooks run commands on every installer's machine; review them as code",
+      "plugins/alpha/.mcp.json: MCP servers run on every installer's machine; review them as code",
+    ])
+  })
+
+  test('warns when plugin.json declares hooks or MCP servers inline', () => {
+    expect(
+      warnings({
+        ...validRepo(),
+        'plugins/alpha/.claude-plugin/plugin.json': json({
+          name: 'alpha',
+          description: 'A plugin.',
+          hooks: {},
+          mcpServers: {},
+        }),
+      }),
+    ).toEqual([
+      'plugins/alpha/.claude-plugin/plugin.json: "hooks" runs on every installer\'s machine; review it as code',
+      'plugins/alpha/.claude-plugin/plugin.json: "mcpServers" runs on every installer\'s machine; review it as code',
     ])
   })
 

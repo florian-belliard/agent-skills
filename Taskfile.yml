@@ -63,7 +63,7 @@ tasks:
       - task: marketplace
 
   zip:
-    desc: 'Zip one plugin for claude.ai Add > Upload plugin, without its evals: task zip PLUGIN=<name>'
+    desc: 'Zip one plugin for claude.ai Add > Upload plugin, its tracked files only, without its evals: task zip PLUGIN=<name>'
     requires:
       vars: [PLUGIN]
     # PLUGIN reaches the shell only as an environment variable, quoted, and only once it names a
@@ -83,5 +83,8 @@ tasks:
       fi
       mkdir -p dist
       rm -f "dist/$PLUGIN.zip"
-      (cd "plugins/$PLUGIN" && zip -rq "../../dist/$PLUGIN.zip" . -x '*/evals/*' '*-workspace/*' '*.DS_Store' '*/__pycache__/*')
+      # Only what git tracks: a stray local file (notes, a .env, eval runs) never reaches the upload.
+      # The names reach zip on stdin (-@), never as arguments: a tracked file named like an option
+      # (-TT runs a command) stays a file name.
+      (cd "plugins/$PLUGIN" && git -c core.quotePath=false ls-files -- . ':(exclude)*/evals/*' | zip -q "../../dist/$PLUGIN.zip" -@)
       echo "dist/$PLUGIN.zip"

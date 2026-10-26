@@ -11,6 +11,10 @@ const NAME_MAX = 64
 const DESCRIPTION_MAX = 1024
 const COMPATIBILITY_MAX = 500
 const LINES_ADVISED = 500
+// Anthropic adds two rules to the spec (Agent Skills overview, field requirements): no reserved
+// word in the name, no XML tag in the description. The name pattern already rules out tags there.
+const RESERVED_WORDS = ['anthropic', 'claude']
+const XML_TAG = /<[a-z/!?][^>]*>/i
 
 // The spec counts characters: spreading a string splits it by code point, not UTF-16 unit.
 const length = (text: string) => [...text].length
@@ -36,15 +40,24 @@ const checkName = (name: unknown, dirName: string): string[] => {
       `name "${String(name)}" must be lowercase letters, digits and single hyphens, at most ${NAME_MAX} characters`,
     ]
   }
+  if (RESERVED_WORDS.some((word) => name.includes(word))) {
+    return [`name "${name}" must not contain "anthropic" or "claude" (reserved by Anthropic)`]
+  }
   return name === dirName ? [] : [`name "${name}" must equal its directory name "${dirName}"`]
 }
 
-const checkDescription = (description: unknown): string[] =>
-  typeof description === 'string' &&
-  description.trim() !== '' &&
-  length(description) <= DESCRIPTION_MAX
-    ? []
-    : [`description is required, 1 to ${DESCRIPTION_MAX} characters`]
+const checkDescription = (description: unknown): string[] => {
+  if (
+    typeof description !== 'string' ||
+    description.trim() === '' ||
+    length(description) > DESCRIPTION_MAX
+  ) {
+    return [`description is required, 1 to ${DESCRIPTION_MAX} characters`]
+  }
+  return XML_TAG.test(description)
+    ? ['description must not contain XML tags (claude.ai rejects the skill)']
+    : []
+}
 
 const checkCompatibility = (compatibility: unknown): string[] =>
   compatibility === undefined ||
