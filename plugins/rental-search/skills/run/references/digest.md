@@ -1,6 +1,6 @@
 # The digest email
 
-A short notice, always the same template: how many new listings, a few fixed info lines, one button to "To decide". The user decides in Notion, not in their inbox. Validated by the first user on 25/10/2026.
+A short notice, always the same template: how many new listings, a few fixed info lines, one button to "To decide". The user decides in Notion, not in their inbox. Validated in testing (October 2026).
 
 **You only fill the slots below. Never add, reword, reorder or restyle anything**: no listing details, no score, no date, no chip, no footer note, no free text. Use the texts in the user's language: English below, French in the validated table at the end, any other language from Settings › Digest › `Texts` (translated once at setup).
 

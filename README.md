@@ -19,7 +19,7 @@ A rental search agent for the Claude desktop app (Cowork), in beta and optimised
 
 | Skill | What it does | Requires |
 |---|---|---|
-| `setup` | Sets the agent up in conversation, in seven steps: criteria interview, application file and message, the Notion workspace, portal alerts created in the browser, the scheduled runs, then a first live run. Resumes where the user stopped. | Notion and Gmail connectors, scheduled tasks; the built-in browser is recommended |
+| `setup` | Sets the agent up in conversation, in seven steps: presentation and prerequisites, criteria interview, application file and message, the Notion workspace, portal alerts created in the browser, the scheduled runs, then a first live run. Resumes where the user stopped. | Notion and Gmail connectors, scheduled tasks; the built-in browser is recommended |
 | `run` | One pass, started by the scheduled tasks: reads result pages, alert emails and a few agency sites, drops what breaks a deal-breaker, deduplicates, scores, files the rest in Notion, learns from the user's verdicts, drafts replies to agencies and emails a recap. | Notion, Gmail; the built-in browser on the computer (a cloud fallback reads emails only) |
 | `apply` | Applies to the listings the user names: adapts the saved message to each listing, fills the contact form, and sends only what the user approves, listing by listing. Also drafts replies to agencies. | Built-in browser, Gmail, Notion |
 | `tune` | Changes a running agent (criteria, learned rules, pause, hours, sites) and answers questions about a listing: rent cap, DPE, scam signals, the strength of the user's file. | Notion; the built-in browser to update alerts |

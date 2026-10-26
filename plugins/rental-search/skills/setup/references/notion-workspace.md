@@ -2,7 +2,7 @@
 
 Goal: one page the person opens to decide in seconds. Everything the agent needs but the person does not is hidden: in the card's "For the agent" section, and in "BACKEND (DO NOT TOUCH)" at the bottom of the page.
 
-**Reference build.** This file describes, block by block, the workspace validated by the first user on 25/10/2026, in French. Reproduce it **exactly**: same blocks, order, heading sizes, icons, colours, sections, views and formulas. Only the language of names and texts changes. Do not add, merge or "improve" anything.
+**Reference build.** This file describes, block by block, the workspace validated in testing (October 2026), in French. Reproduce it **exactly**: same blocks, order, heading sizes, icons, colours, sections, views and formulas. Only the language of names and texts changes. Do not add, merge or "improve" anything.
 
 Ask once, in the user's language: "Where should I create the workspace in your Notion? In an existing page, or a new private page?" Default: a new private top-level page. Move the Settings page (created at the start) under it.
 
@@ -259,7 +259,7 @@ The card of "To decide" shows only the title, Monthly rent, Living area and Loca
 
 **"My selection" is one linked-database block with two tabs**: create "Tracking" with `parent_page_id` = home page (it lands at the end of the page), then "Archives" with `database_id` = that new block, then move the block's `<database>` tag into the "My selection" toggle with `update_content` (tag removed from the end of the page in the same call).
 - "Tracking" is a kanban of the listings the user said yes to, one column per status, in the order of the `status` options. The user moves the cards from column to column as things happen; the agent moves them too (see `run` › feedback).
-- A card leaves "Tracking" for "Archives" when its status is Dropped or Gone, or when it has sat in Shortlisted or Contacted for more than a week (validated by the first user: a lead nobody acts on for a week is cold). To archive a card by hand, the user sets its status on the page.
+- A card leaves "Tracking" for "Archives" when its status is Dropped or Gone, or when it has sat in Shortlisted or Contacted for more than a week (validated in testing: a lead nobody acts on for a week is cold). To archive a card by hand, the user sets its status on the page.
 - "A week" is measured with `status_since`, kept by the agent: Notion has no per-property change date, and "last edited" would restart at any edit. `status_seen` is the status the agent last dated; while it differs from `status` (the user just moved the card), the card stays on the board until the next run dates it. To bring an archived card back, the user changes its status.
 - View filters cannot read a formula (the DSL drops them silently): the views compare `status_seen` and `status_since` directly, and only `run` reads `status_changed`, in rows mode.
 

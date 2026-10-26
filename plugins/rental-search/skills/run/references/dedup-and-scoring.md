@@ -14,7 +14,7 @@ For each candidate, check every active criterion of type `dealbreaker` against *
 
 The same flat arrives from three portals, sometimes the same day, sometimes relisted weeks later. A duplicate costs the user a click; a flat wrongly merged into an old rejection costs them the apartment. When in doubt, write.
 
-**Always reduce a link to its key before matching, and match on the key alone** (in the first user's base, the same listing was written twice 6 times because the link format differed):
+**Always reduce a link to its key before matching, and match on the key alone** (in testing, the same listing was written twice 6 times because the link format differed):
 - SeLoger: the 12-character ID, whatever the URL form (`/annonce/…/<ID>` or `/annonces/…/<ID>.htm`);
 - Bien'ici: decode the redirector first (`sources.md` › 5); key = the path after `/annonce/`, without parameters;
 - PAP: `r` + digits;
@@ -26,7 +26,7 @@ The same flat arrives from three portals, sometimes the same day, sometimes reli
 **Then against Listings, in this order:**
 
 1. **Portal ID or reference in `link`.** A hit is the same listing: the only match that is a verdict. Done.
-2. **Exact fingerprint** `<postcode>-<surface rounded to the m²>-<rent CC rounded to 10>`, e.g. `75014-44-1820`. Three segments, no words, no agency, no reference, never an unrounded rent. **A hit is a candidate, never a verdict on its own**: compare the discriminating fields exactly as for a similarity hit (3). The first user's base had 27 fingerprint collisions among 334 listings, several between clearly different flats (other quartier, agency vs private landlord, furnished vs unfurnished).
+2. **Exact fingerprint** `<postcode>-<surface rounded to the m²>-<rent CC rounded to 10>`, e.g. `75014-44-1820`. Three segments, no words, no agency, no reference, never an unrounded rent. **A hit is a candidate, never a verdict on its own**: compare the discriminating fields exactly as for a similarity hit (3). A test base had 27 fingerprint collisions among 334 listings, several between clearly different flats (other quartier, agency vs private landlord, furnished vs unfurnished).
 3. **Similarity**: same postcode, rent within 5 % (15 % when either row has `rent_excl_charges`: its rent is a floor), surface within 5 %. **A hit is a candidate, not a verdict.** Compare the discriminating fields: quartier or street, agency, listing reference, floor, furnished or not. **One differs → two distinct flats → write the new row.** Nothing differs but you are not sure → write it with "Possible duplicate of <type + street or quartier of the existing row>" at the head of the summary (titles are short: never cite a row by its title alone).
 
 **Never let a new listing inherit one of the user's rejections through a numeric resemblance.**
