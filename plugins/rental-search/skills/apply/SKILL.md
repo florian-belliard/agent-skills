@@ -1,6 +1,6 @@
 ---
 name: apply
-description: Apply to rental listings, or reply to an agency, on the user's behalf - opens each listing in the built-in browser, adapts the saved application message in the listing's language, fills the contact form, shows everything for review and sends only what the user explicitly confirms, then records it in Notion. Use when the user asks to apply, contact a landlord or agency, or reply to an agency ("apply to", "contact", "reply to the agency", in any language), or names listings they want to apply to.
+description: Apply to rental listings, or reply to an agency, on the user's behalf - opens each listing in the built-in browser, adapts the saved application message in the listing's language, shows everything for review, then fills the contact form and sends only what the user explicitly confirms, and records it in Notion. Use when the user asks to apply, contact a landlord or agency, or reply to an agency ("apply to", "contact", "reply to the agency", in any language), or names listings they want to apply to.
 ---
 
 # rental-search:apply
@@ -17,9 +17,9 @@ The person found listings they like. Your job: make applying cost them one sente
 
 **Nothing is sent without an explicit ok for that listing, given after you showed the final message.** "ok 1 and 3" approves listings 1 and 3 of the recap you just showed, nothing else. Never send from a scheduled run, never send to a listing they did not name, never reuse an earlier ok for a new listing.
 
-Everything before sending you do yourself: finding the listing, writing the message, filling the form.
+Everything before the ok you do yourself: finding the listing, writing the message, reading the form. Filling the form belongs to sending: the user's details go into a page only after the ok for that listing, because a page can read what is typed into it before anything is sent.
 
-**Test mode** (Settings › Digest › `Test mode` = yes): prepare and show everything in the conversation, but create no Gmail draft and send nothing. Say that applications and replies go through the main search, and offer to switch to its Settings page.
+**Test mode** (Settings › Digest › `Test mode` = yes): prepare and show everything in the conversation, but fill no form, create no Gmail draft and send nothing. Say that applications and replies go through the main search, and offer to switch to its Settings page.
 
 ## Steps
 
@@ -38,16 +38,16 @@ The user may name them by street, area, link, Notion card, or recency ("the last
 2. **Find how to contact**: a form on the page, an agency email, a phone number only, or a messaging system that needs an account. See `references/contact-channels.md`.
 3. **Needs an account and they are not logged in**: "Log in to <site> (or create your account) in the browser panel, then tell me 'done'." Never type a password, never fill a sign-up form, never create an account. Cookie banners: the most privacy-preserving choice.
 4. **Write the message**: My message, with only the first line adapted to this listing. That line names the street or area and one concrete thing from the ad that matches their criteria (a balcony, the floor, the light). Never invent a fact about the flat or about them. Respect the site's character limit.
-5. **Fill the form** with the saved fields only. A field that is not in My application (income, date of birth, profession detail): leave it empty and ask. Untick newsletters and partner offers. A mandatory « j'accepte les conditions » box is an acceptance: include it in what you ask them to approve.
-6. **Do not click send.** Take note of exactly what is filled. Email channel: prepare the mail as a Gmail draft now (`create_draft`), so the recap can point to it (not in test mode: show it in the conversation only).
+5. **Read the form, type nothing into it yet.** Note its fields and the site it is on (the host in the address bar). The saved fields are the only ones you will fill. A field that is not in My application (income, date of birth, profession detail): ask; otherwise it stays empty. Newsletters and partner offers: you will untick them. A mandatory « j'accepte les conditions » box is an acceptance: include it in what you ask them to approve.
+6. **Email channel**: prepare the mail as a Gmail draft now (`create_draft`), so the recap can point to it (not in test mode: show it in the conversation only).
 
 ### 4. One recap, one decision
 
-Show all prepared applications in one message:
+Show all prepared applications in one message. Each one names where it goes: the form's site (its host) or the email recipient.
 
-> **1. T2 44 m² · rue Daguerre (14th) · €1,820** — SeLoger, agency form
+> **1. T2 44 m² · rue Daguerre (14th) · €1,820** — SeLoger, agency form on www.seloger.com
 > Message (translated; sent in French): "Hello, we really like your T2 on rue Daguerre, especially the balcony and the lift. We are…"
-> Fields: First name, Last name, Email, Phone · terms box to tick
+> Fields I will fill: First name, Last name, Email, Phone · terms box to tick
 >
 > **2. T2 48 m² · Convention (15th) · €1,690** — phone number only: 01 23 45 67 89 (see the script below)
 >
@@ -58,6 +58,8 @@ For a phone-only listing, give the number and a 3-line call script. You never ca
 ### 5. Send what was approved
 
 For each approved listing only:
+- Check that the page is still on the host you showed. If it is not, stop for that listing and tell them.
+- Fill the form exactly as shown in the recap: the saved fields and the message, newsletters and partner offers unticked, the terms box ticked if they approved it.
 - Click send. Check the page's confirmation message. If there is none, say so: do not resend blindly.
 - Email channel: send the draft prepared at step 3 (`send_message` with the draft), only because it was approved. Listings not approved: their drafts stay in Gmail; say so in the final recap.
 - Record it in Listings: `Stage = Applied` (with `Stage seen` = the same and `Stage since` = today, as on every stage change), `Applied on = today`, and append one line to `Agent notes`: "Applied on 25/10 via SeLoger (form)."

@@ -83,6 +83,8 @@ Create the label with the Gmail connector if available (`create_label`: "Rental 
 
 Show the filter, wait for ok, create it. If they prefer to do it themselves, give these exact steps instead.
 
+Once the filter is created, sign out of Google in the built-in browser and tell them why in one sentence: the scheduled searches use this browser and read mail from strangers, so it must not stay logged in to their mailbox. The Gmail connector keeps working: it does not use the browser's session.
+
 ## 5.6 — Close the step
 
 One recap line per site: alert created / reused / to do by hand. Check that Settings › Search has the `Alert address`, `Gmail query`, `Sites followed`, `Agency sites read directly` and both results-page URLs. Tick step 5 in Settings. Tell them alerts may take a few hours to send their first mail: the first run will still work from the browser sweep.

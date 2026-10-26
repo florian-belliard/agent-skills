@@ -4,7 +4,7 @@ Sites change their pages often. Treat this as a starting point: always look at t
 
 | What you see | What to do |
 |---|---|
-| A contact form on the listing page (name, email, phone, message) | Fill it from My application. Most agency listings on SeLoger and Bien'ici work this way. |
+| A contact form on the listing page (name, email, phone, message) | Read its fields now; fill it from My application only after the ok (`SKILL.md` step 5). Most agency listings on SeLoger and Bien'ici work this way. |
 | A « Contacter » button that opens a messaging thread inside the site | Usually needs an account. Ask the user to log in, then write in the thread. Leboncoin and PAP generally work this way. |
 | An agency email address in the ad | Gmail draft to that address, subject "Application — <listing title>", in the listing's language. |
 | A phone number only | Give the number and a 3-line call script. Never call. |

@@ -10,7 +10,7 @@ Several times a day (four by default), I read the new listings, on the sites and
 
 **Beta version.** I'm optimised for Paris and have been tested there by only one person. Elsewhere it should work, but expect some tuning.
 
-**I save you time on applications.** For each listing you like, I prepare the message, fill in the site's form and send as soon as you say ok. Replies to agencies wait for you as drafts in Gmail. Everything goes out in the listing's language, and I translate for you what I send. I never create an account and never type a password for you.
+**I save you time on applications.** For each listing you like, I prepare the message; as soon as you say ok, I fill in the site's form and send it. Replies to agencies wait for you as drafts in Gmail. Everything goes out in the listing's language, and I translate for you what I send. I never create an account and never type a password for you.
 
 **You need** the Claude app on your computer, a Notion account (free) and a Gmail address. Allow about 30 minutes; we can stop and pick up later.
 
