@@ -48,7 +48,7 @@ Show it (with its translation if needed), ask "Shall I change anything?", iterat
 
 ## Store it
 
-Until step 4, keep the approved message and fields in Settings › Message draft. Also write the application email in Settings › Search › `Application email`, and the query `run` uses to find agencies' replies in `Human mail query`: the template from `notion-workspace.md` › Settings with that email filled in (the sites' domains are filled in at step 5.1). Test mode: copy both from the existing search if it has a Settings page.
+Until step 4, keep the approved message and fields in Settings › Message draft. Also write the application email in Settings › Search › `Application email`, and the query `run` uses to find agencies' replies in `Human mail query`: the template from `settings-page.md` › Search with that email filled in (the sites' domains are filled in at step 5.1). Test mode: copy both from the existing search if it has a Settings page.
 
 At step 4, create the page "My application" under the home page: icon `icons/send_brown`, no cover, title in the user's language. Section titles in the user's language: `apply` finds the sections by position and meaning, in whatever language they are. Exactly this content, in Notion-flavoured Markdown, texts in the user's language; the headings are H2:
 

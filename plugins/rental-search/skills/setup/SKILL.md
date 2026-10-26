@@ -1,5 +1,6 @@
 ---
 name: setup
+license: MIT
 description: Set up a personal rental-search agent from scratch, in the user's language - presents the agent, interviews the user on their criteria, prepares their application message, builds a clean Notion workspace, creates portal alerts in the built-in browser, schedules the runs and does a first run live. Use when someone wants to start (or resume) their apartment rental search with the rental-search plugin.
 ---
 
@@ -16,7 +17,7 @@ The plugin's other skills: `rental-search:run` (the scheduled runs), `rental-sea
 - **Everything written for the user** (criteria, Notion labels and texts, summaries, digests) **is in their language.**
 - **Everything sent to landlords and agencies is in the language of the listing** (French in France), whatever the user's language. Always show the user a translation of what will be sent.
 - For a user who does not speak French, explain each French rental term the first time it comes up, in one line: charges comprises (CC), DPE, encadrement des loyers, garant, Visale, DossierFacile, bail meublé / vide.
-- The **Settings** page is a machine page: its labels stay exactly as written in `references/notion-workspace.md`, in English, in every language. Only the values follow the user.
+- The **Settings** page is a machine page: its labels stay exactly as written in `references/settings-page.md`, in English, in every language. Only the values follow the user.
 
 ## Before anything: resume, or start clean
 
@@ -31,7 +32,7 @@ The plugin's other skills: `rental-search:run` (the scheduled runs), `rental-sea
    - step 3: offer to copy the existing "My application" content instead of asking again;
    - step 5: **create no portal alert, change no alert, create no Gmail filter.** Reuse the existing reception address and Gmail query as they are (copy them from the existing Settings, or rebuild the query from the alerts found in 5.3): both agents read the same mails, read-only. Still save `Sites followed` / `Agency sites read directly` (5.1) and build and save the two results-page URLs (5.4, read-only);
    - the test agent never drafts replies and never sends applications (see `run` and `apply`): the existing agent keeps that job.
-3. As soon as Notion is available, create the Settings page (empty sections, see `references/notion-workspace.md`), in a private page for now. From then on, write each answer there as you get it (Language, Criteria draft, contact fields) and tick each step when done, so a closed window loses nothing. Without Notion, say once that progress lives only in this conversation until Notion is connected.
+3. As soon as Notion is available, create the Settings page (empty sections, see `references/settings-page.md`), in a private page for now. From then on, write each answer there as you get it (Language, Criteria draft, contact fields) and tick each step when done, so a closed window loses nothing. Without Notion, say once that progress lives only in this conversation until Notion is connected.
 
 ## The seven steps
 
