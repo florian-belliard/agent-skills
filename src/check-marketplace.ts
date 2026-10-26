@@ -4,13 +4,16 @@
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { checkSkill, NAME_PATTERN } from './check-skill'
-import { error, type Finding } from './finding'
+import { error, warning, type Finding } from './finding'
 import { isMap } from './is-map'
 
 const MARKETPLACE = '.claude-plugin/marketplace.json'
 const README = 'README.md'
 // skill-creator writes eval runs to `<skill>-workspace/` beside the skill, and git ignores them.
 const WORKSPACE_SUFFIX = '-workspace'
+// Hooks and MCP servers start on their own on every installer's machine. A plugin may ship them,
+// so they only warn, to draw a reviewer's eye to the pull request that adds them.
+const RUNS_ON_INSTALL = ['hooks', 'mcpServers']
 
 type Entry = { name: string; source: unknown; version?: unknown }
 
@@ -109,8 +112,30 @@ const checkManifest = (root: string, plugin: string): Finding[] => {
           ),
         ]
       : []),
+    ...RUNS_ON_INSTALL.filter((key) => key in data).map((key) =>
+      warning(file, `"${key}" runs on every installer's machine; review it as code`),
+    ),
   ]
 }
+
+const checkRunsOnInstall = (root: string, plugin: string): Finding[] => [
+  ...(existsSync(join(root, 'plugins', plugin, 'hooks'))
+    ? [
+        warning(
+          `plugins/${plugin}/hooks`,
+          "hooks run commands on every installer's machine; review them as code",
+        ),
+      ]
+    : []),
+  ...(existsSync(join(root, 'plugins', plugin, '.mcp.json'))
+    ? [
+        warning(
+          `plugins/${plugin}/.mcp.json`,
+          "MCP servers run on every installer's machine; review them as code",
+        ),
+      ]
+    : []),
+]
 
 const checkNoBin = (root: string, plugin: string): Finding[] => {
   const bin = join(root, 'plugins', plugin, 'bin')
@@ -248,6 +273,7 @@ export const checkMarketplace = (root: string): Finding[] => {
       ...checkPluginName(plugin),
       ...checkManifest(root, plugin),
       ...checkNoBin(root, plugin),
+      ...checkRunsOnInstall(root, plugin),
     ]),
     ...listings.flatMap((l) => l.findings),
     ...checkUniqueNames(skills),
