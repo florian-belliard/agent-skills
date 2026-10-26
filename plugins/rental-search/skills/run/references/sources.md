@@ -30,7 +30,7 @@ Card text carries: rent CC, rooms, bedrooms, surface, **floor** (`Étage 3/8`, `
 **Card-level filter**, before any lookup:
 - Trust the postcode in parentheses, not the quartier label (SeLoger mixes in "similar" listings from elsewhere).
 - Drop a card only when what the card itself states breaks an active deal-breaker (zone, ceiling, minimum surface, minimum rooms, a floor rule). Rules that need the detail page (a lift, a lease type) are checked once that page is open.
-- Unless the user is looking for a flatshare: drop `Colocation` cards — **except** a `Particulier` card priced like a whole flat: open it. Such a card has already turned out to be a whole flat with « colocation possible ».
+- Drop `Colocation` cards — **except** a `Particulier` card priced like a whole flat: open it. Such a card has already turned out to be a whole flat with « colocation possible ».
 
 **Leboncoin** is not read through the browser (blank anti-bot page). It stays on mail alerts; its detail pages are readable with WebFetch.
 
