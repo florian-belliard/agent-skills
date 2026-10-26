@@ -84,5 +84,7 @@ tasks:
       mkdir -p dist
       rm -f "dist/$PLUGIN.zip"
       # Only what git tracks: a stray local file (notes, a .env, eval runs) never reaches the upload.
-      (cd "plugins/$PLUGIN" && git ls-files -z -- . ':(exclude)*/evals/*' | xargs -0 zip -q "../../dist/$PLUGIN.zip")
+      # The names reach zip on stdin (-@), never as arguments: a tracked file named like an option
+      # (-TT runs a command) stays a file name.
+      (cd "plugins/$PLUGIN" && git -c core.quotePath=false ls-files -- . ':(exclude)*/evals/*' | zip -q "../../dist/$PLUGIN.zip" -@)
       echo "dist/$PLUGIN.zip"
