@@ -30,6 +30,6 @@ Shall we start with your criteria?
 Check silently, then report in two lines, in the user's language, for example:
 
 > Notion and Gmail are connected, the browser too: we can do everything together.
-> Scheduled tasks are missing: we'll sort that out at step 6, nothing is blocked until then.
+> Scheduled tasks are missing: they need the Claude desktop app and a paid Claude plan (Pro or above). We'll sort that out at step 6, nothing is blocked until then.
 
 If Notion or Gmail is missing, say which one and where to connect it (Claude's settings, Connectors), and continue with steps 2 and 3, which need neither.

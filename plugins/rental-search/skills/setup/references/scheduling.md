@@ -33,7 +33,9 @@ Run the skill rental-search:run in mode "computer". Settings page: <Settings URL
 Run the skill rental-search:run in mode "fallback". Settings page: <Settings URL>. Unattended run: ask no questions.
 ```
 
-Store both task ids in Settings › Runs, and in `Times` the **exact** times the computer task got (after any minute jitter the tool applies): the digest announces them. The fallback runs 45 minutes after each of those times.
+**No built-in browser** (step 1 found none): create task 2 only, at the chosen hours instead of 45 minutes after, and skip "What to say about the computer". The runs then read the emails only: say so in one sentence.
+
+Store the task ids in Settings › Runs, and in `Times` the **exact** times the computer task got (after any minute jitter the tool applies): the digest announces them. The fallback runs 45 minutes after each of those times.
 
 If `run/references/digest.md` gives no version of the digest's fixed texts in the user's language: write them (headlines, sublines, info lines, button, the next-run line, subjects), translated once, in Settings › Digest › `Texts`. Every run uses that translation as is.
 
