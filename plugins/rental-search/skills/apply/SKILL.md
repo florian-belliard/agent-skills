@@ -61,6 +61,7 @@ For a phone-only listing, give the number and a 3-line call script. You never ca
 For each approved listing only:
 - Check that the page is still on the host you showed. If it is not, stop for that listing and tell them.
 - Fill the form exactly as shown in the recap: the saved fields and the message, newsletters and partner offers unticked, the terms box ticked if they approved it.
+- Messaging thread: type the message as shown and send it.
 - Click send. Check the page's confirmation message. If there is none, say so: do not resend blindly.
 - Email channel: send the draft prepared at step 3 (`send_message` with the draft), only because it was approved. Listings not approved: their drafts stay in Gmail; say so in the final recap.
 - Record it in Listings: `Stage = Applied` (with `Stage seen` = the same and `Stage since` = today, as on every stage change), `Applied on = today`, and append one line to `Agent notes`: "Applied on 25/10 via SeLoger (form)."
@@ -70,8 +71,8 @@ End with a short recap: sent, left as draft, skipped (and why).
 ## Replying to an agency or a landlord
 
 When the user says "reply to the agency", or when you are asked about a reply the run prepared:
-- Find the thread in Gmail. Draft the reply in the thread (`create_draft` with the thread or message reference): short, formal (« vous » in French), answering exactly what they asked (visit slot, documents, availability). Documents: give the DossierFacile link, never attach ID or payslips yourself.
-- Show it, send only on ok. Otherwise leave the draft in Gmail and say so.
+- Find the thread in Gmail. The run may already have left a reply draft in it, and `get_thread` does not show drafts: look with `list_drafts` and keep the one in this thread. If there is one, start from it and change it with `update_draft`; otherwise create one as a reply to their last message (`create_draft` with `replyToMessageId`). Short, formal (« vous » in French), answering exactly what they asked (visit slot, documents, availability). Documents: give the DossierFacile link, never attach ID or payslips yourself.
+- Show it, send that draft only on ok. Otherwise leave it in Gmail and say so.
 
 ## Limits
 
