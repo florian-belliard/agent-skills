@@ -1,5 +1,6 @@
 ---
 name: skill-name
+license: MIT
 description: What the skill produces, then when to use it, with the words and situations that should trigger it. Third person, at most 1024 characters.
 ---
 

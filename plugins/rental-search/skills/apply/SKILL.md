@@ -1,5 +1,6 @@
 ---
 name: apply
+license: MIT
 description: Apply to rental listings, or reply to an agency, on the user's behalf - opens each listing in the built-in browser, adapts the saved application message in the listing's language, shows everything for review, then fills the contact form and sends only what the user explicitly confirms, and records it in Notion. Use when the user asks to apply, contact a landlord or agency, or reply to an agency ("apply to", "contact", "reply to the agency", in any language), or names listings they want to apply to.
 ---
 
