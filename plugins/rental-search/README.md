@@ -46,7 +46,7 @@ Setup takes 7 steps, in conversation: presentation, your criteria, your file and
 
 ## What the agent touches
 
-- **Gmail**: it reads your portal alerts, and the mails to your application address that look like an agency's reply. After your ok, it creates a "Rental search" label and a filter. It writes reply drafts and sends you the recap, and sends nothing else on its own.
+- **Gmail**: it reads your portal alerts, and the mails to your application address that look like an agency's reply. It creates a "Rental search" label, and a Gmail filter after your ok. It writes reply drafts and sends you the recap, and sends nothing else on its own.
 - **Notion**: it creates a home page, three databases (listings, criteria, run log), a "My application" page and a "Settings" page. Your contact details, situation and DossierFacile link live in "My application".
 - **The built-in browser**: it reads result pages and listings. It creates alerts and fills application forms only after your ok. Sites you log in to there stay logged in; the agent signs you out of Google after creating the Gmail filter.
 - **Outside services**: listing addresses go to the French government geocoder (`data.geopf.fr`) to place them on the map, and a weekly web search checks that the rental rules it applies are still current.
@@ -64,7 +64,7 @@ Your contact details, situation and file stay in your Notion, and go only into t
 
 - For now, Claude needs your computer on, with the Claude app open, at run times: that is how it opens the browser and does its best work. When the computer is off, a fallback runs on your emails only: it still works, but sees fewer listings and less detail. So leave it on at those hours: you get the full search.
 - Designed for Paris, the French portals (SeLoger, Bien'ici, Leboncoin, PAP, Figaro Immo, Gens de Confiance) and Paris rent control. Elsewhere it works, but less precisely.
-- Flatshares are not supported: colocation listings are set aside.
+- Not built for flatshares: by default, colocation listings are set aside.
 - Some sites sometimes show an anti-bot check: the agent then skips that site for that run and tells you.
 - Links in the recap mail go through a Google redirect warning page: that is the Gmail connector, nothing to do.
 - A few Notion settings (order of the board columns, card size) cannot be done with the tools: the agent tells you what to click, or does it with computer use if you allow it.
