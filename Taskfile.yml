@@ -1,0 +1,86 @@
+version: '3'
+
+# Taskfile is the source of truth for dev commands. `check` is the gate before every commit:
+# it runs this repo's own rules (check-marketplace) and Claude Code's (`claude plugin
+# validate`), so a marketplace a surface would refuse never reaches main.
+
+tasks:
+  default:
+    cmd: task --list
+
+  lint:
+    desc: Lint with oxlint (file names included) + directory names of src/ (lint:dirs)
+    cmds:
+      - bunx oxlint
+      - task: lint:dirs
+  lint:dirs:
+    desc: 'Fail on a src/ directory that is not kebab-case — oxlint only checks file names (ADR-0002 of the claude-code-setup repo)'
+    silent: true
+    cmd: |
+      bad="$(git ls-files --cached --others --exclude-standard src | awk -F/ '{for (i = 1; i < NF; i++) print $i}' | sort -u | grep -vE '^[a-z0-9]+(-[a-z0-9]+)*$' || true)"
+      if [ -n "$bad" ]; then
+        echo "Directory names must be kebab-case (ADR-0002 of the claude-code-setup repo):"
+        printf '%s\n' "$bad" | sed 's/^/  /'
+        exit 1
+      fi
+  format:
+    desc: Format with oxfmt (plugins/ and starters/ are skipped)
+    cmd: bunx oxfmt
+  format:check:
+    desc: Check formatting without writing
+    cmd: bunx oxfmt --check
+  typecheck:
+    desc: TypeScript check (no emit)
+    cmd: bunx tsc --noEmit
+  test:
+    desc: Run the tests of the repo's own checks
+    cmd: bun test ./src
+
+  marketplace:
+    desc: Check that the marketplace, plugins/, every SKILL.md and the README catalog agree
+    cmd: bun src/bin/check-marketplace.ts
+  validate:
+    desc: Claude Code's own validation of the marketplace and of every plugin it lists
+    cmd: claude plugin validate .
+
+  check:
+    desc: Lint + format + typecheck + test + marketplace + validate — before every commit and PR
+    cmds:
+      - task: lint
+      - task: format:check
+      - task: typecheck
+      - task: test
+      - task: marketplace
+      - task: validate
+  check:quick:
+    desc: 'The per-task gate: format (writes), lint, typecheck, test, marketplace'
+    cmds:
+      - task: format
+      - task: lint
+      - task: typecheck
+      - task: test
+      - task: marketplace
+
+  zip:
+    desc: 'Zip one plugin for claude.ai Add > Upload plugin, without its evals: task zip PLUGIN=<name>'
+    requires:
+      vars: [PLUGIN]
+    # PLUGIN reaches the shell only as an environment variable, quoted, and only once it names a
+    # directory of plugins/: a value templated into the command would run as shell code.
+    env:
+      PLUGIN: '{{.PLUGIN}}'
+    cmd: |
+      case "$PLUGIN" in
+        '' | -* | *- | *[!a-z0-9-]*)
+          echo "PLUGIN must be a plugin name (lowercase letters, digits, hyphens), got: $PLUGIN"
+          exit 1
+          ;;
+      esac
+      if [ ! -f "plugins/$PLUGIN/.claude-plugin/plugin.json" ]; then
+        echo "No plugin at plugins/$PLUGIN"
+        exit 1
+      fi
+      mkdir -p dist
+      rm -f "dist/$PLUGIN.zip"
+      (cd "plugins/$PLUGIN" && zip -rq "../../dist/$PLUGIN.zip" . -x '*/evals/*' '*-workspace/*' '*.DS_Store' '*/__pycache__/*')
+      echo "dist/$PLUGIN.zip"

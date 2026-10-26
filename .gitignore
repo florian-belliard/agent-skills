@@ -1,0 +1,25 @@
+# deps
+node_modules/
+
+# task zip output
+dist/
+
+# system
+.DS_Store
+*.log
+*.tsbuildinfo
+__pycache__/
+
+# skill eval runs (agentskills.io "Evaluating skills"): results, never sources
+*-workspace/
+
+# claude code (per-machine permission grants — never commit)
+.claude/settings.local.json
+# claude code (handoff note the SessionEnd hook leaves per branch — machine-local)
+.claude/handoff/
+# claude code (worktrees created by EnterWorktree; Superpowers' .worktrees/ too)
+.claude/worktrees/
+.worktrees/
+
+# /claude-security reports (ADR-0004 of the claude-code-setup repo)
+CLAUDE-SECURITY-*/
