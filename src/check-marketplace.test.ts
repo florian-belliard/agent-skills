@@ -124,6 +124,50 @@ describe('checkMarketplace', () => {
     ])
   })
 
+  test('reports a version on a marketplace entry', () => {
+    expect(
+      errors({
+        ...validRepo(),
+        '.claude-plugin/marketplace.json': marketplace([{ ...entry('alpha'), version: '1.0.0' }]),
+      }),
+    ).toEqual([
+      '.claude-plugin/marketplace.json: plugin "alpha" sets "version": remove it, or nobody gets a change until it is bumped',
+    ])
+  })
+
+  test('reports a plugin name outside lowercase letters, digits and single hyphens', () => {
+    expect(
+      errors({
+        '.claude-plugin/marketplace.json': marketplace([entry('My_Plugin')]),
+        'plugins/My_Plugin/.claude-plugin/plugin.json': pluginJson('My_Plugin'),
+        'README.md': readme(catalogOf({ My_Plugin: [] })),
+      }),
+    ).toEqual([
+      'plugins/My_Plugin: plugin name "My_Plugin" must be lowercase letters, digits and single hyphens',
+    ])
+  })
+
+  test('ignores an eval workspace beside the skills', () => {
+    expect(
+      errors({
+        ...validRepo(),
+        'plugins/alpha/skills/first-workspace/iteration-1/benchmark.json': '{}\n',
+      }),
+    ).toEqual([])
+  })
+
+  test('reports a skill whose name ends in -workspace, which git ignores', () => {
+    expect(
+      errors({
+        ...validRepo(),
+        'plugins/alpha/skills/google-workspace/SKILL.md': skillMd('google-workspace'),
+        'README.md': readme(catalogOf({ alpha: ['first', 'google-workspace'] })),
+      }),
+    ).toEqual([
+      'plugins/alpha/skills/google-workspace: the -workspace suffix is reserved for eval output, which git ignores; rename the skill',
+    ])
+  })
+
   test('reports a top-level bin/ in a plugin', () => {
     expect(errors({ ...validRepo(), 'plugins/alpha/bin/run.sh': 'echo hi\n' })).toEqual([
       'plugins/alpha/bin: claude.ai rejects a plugin with a top-level bin/ directory; use scripts/',

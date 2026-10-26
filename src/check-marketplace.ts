@@ -3,13 +3,16 @@
 // claude.ai organisation sync, claude.ai upload, Claude Code, and `npx skills` for the rest.
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
-import { checkSkill } from './check-skill'
+import { checkSkill, NAME_PATTERN } from './check-skill'
 import { error, type Finding } from './finding'
+import { isMap } from './is-map'
 
 const MARKETPLACE = '.claude-plugin/marketplace.json'
 const README = 'README.md'
+// skill-creator writes eval runs to `<skill>-workspace/` beside the skill, and git ignores them.
+const WORKSPACE_SUFFIX = '-workspace'
 
-type Entry = { name: string; source: unknown }
+type Entry = { name: string; source: unknown; version?: unknown }
 
 const readText = (path: string): string | undefined =>
   existsSync(path) ? readFileSync(path, 'utf8') : undefined
@@ -25,9 +28,6 @@ const readJson = (path: string): unknown => {
     return undefined
   }
 }
-
-const isMap = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null && !Array.isArray(value)
 
 const subdirectories = (path: string): string[] =>
   existsSync(path)
@@ -65,12 +65,31 @@ const checkEntries = (entries: Entry[], pluginDirs: string[]): Finding[] => [
       ),
     ),
   ...entries
+    .filter((e) => 'version' in e)
+    .map((e) =>
+      error(
+        MARKETPLACE,
+        `plugin "${e.name}" sets "version": remove it, or nobody gets a change until it is bumped`,
+      ),
+    ),
+  ...entries
     .filter((e) => !pluginDirs.includes(e.name))
     .map((e) => error(MARKETPLACE, `plugin "${e.name}" has no directory plugins/${e.name}`)),
   ...pluginDirs
     .filter((dir) => !entries.some((e) => e.name === dir))
     .map((dir) => error(`plugins/${dir}`, `directory is not listed in ${MARKETPLACE}`)),
 ]
+
+// The same pattern as a skill name: `task zip` and the claude.ai surfaces expect kebab-case.
+const checkPluginName = (plugin: string): Finding[] =>
+  NAME_PATTERN.test(plugin)
+    ? []
+    : [
+        error(
+          `plugins/${plugin}`,
+          `plugin name "${plugin}" must be lowercase letters, digits and single hyphens`,
+        ),
+      ]
 
 const checkManifest = (root: string, plugin: string): Finding[] => {
   const file = `plugins/${plugin}/.claude-plugin/plugin.json`
@@ -108,12 +127,23 @@ const checkNoBin = (root: string, plugin: string): Finding[] => {
 type Skill = { plugin: string; name: string }
 
 const listSkills = (root: string, plugin: string): { skills: Skill[]; findings: Finding[] } => {
-  const dirs = subdirectories(join(root, 'plugins', plugin, 'skills'))
   const file = (name: string) => `plugins/${plugin}/skills/${name}/SKILL.md`
-  const withFile = dirs.filter((name) => existsSync(join(root, file(name))))
+  const hasFile = (name: string) => existsSync(join(root, file(name)))
+  const dirs = subdirectories(join(root, 'plugins', plugin, 'skills')).filter(
+    (name) => !name.endsWith(WORKSPACE_SUFFIX) || hasFile(name),
+  )
+  const withFile = dirs.filter(hasFile)
   return {
     skills: withFile.map((name) => ({ plugin, name })),
     findings: [
+      ...withFile
+        .filter((name) => name.endsWith(WORKSPACE_SUFFIX))
+        .map((name) =>
+          error(
+            `plugins/${plugin}/skills/${name}`,
+            `the ${WORKSPACE_SUFFIX} suffix is reserved for eval output, which git ignores; rename the skill`,
+          ),
+        ),
       ...dirs
         .filter((name) => !withFile.includes(name))
         .map((name) => error(`plugins/${plugin}/skills/${name}`, 'no SKILL.md')),
@@ -127,12 +157,12 @@ const listSkills = (root: string, plugin: string): { skills: Skill[]; findings: 
 // `npx skills` installs every skill of a repo into one flat directory per agent.
 const checkUniqueNames = (skills: Skill[]): Finding[] =>
   skills.flatMap((skill, i) => {
-    const first = skills.find((other) => other.name === skill.name)
-    return first && skills.indexOf(first) < i
+    const first = skills.findIndex((other) => other.name === skill.name)
+    return first < i
       ? [
           error(
             `plugins/${skill.plugin}/skills/${skill.name}`,
-            `skill name "${skill.name}" is also used by plugin "${first.plugin}" (npx skills installs every skill in one flat directory)`,
+            `skill name "${skill.name}" is also used by plugin "${skills[first].plugin}" (npx skills installs every skill in one flat directory)`,
           ),
         ]
       : []
@@ -215,6 +245,7 @@ export const checkMarketplace = (root: string): Finding[] => {
     ...marketplaceFindings,
     ...(entries ? checkEntries(entries, pluginDirs) : []),
     ...pluginDirs.flatMap((plugin) => [
+      ...checkPluginName(plugin),
       ...checkManifest(root, plugin),
       ...checkNoBin(root, plugin),
     ]),

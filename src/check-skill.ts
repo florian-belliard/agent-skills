@@ -3,9 +3,10 @@
 // frontmatter key outside it, so a Claude Code-only key such as `disable-model-invocation`
 // would make the skill installable in Claude Code and nowhere else.
 import { error, warning, type Finding } from './finding'
+import { isMap } from './is-map'
 
 const SPEC_KEYS = ['name', 'description', 'license', 'compatibility', 'metadata', 'allowed-tools']
-const NAME_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/
+export const NAME_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/
 const NAME_MAX = 64
 const DESCRIPTION_MAX = 1024
 const COMPATIBILITY_MAX = 500
@@ -13,9 +14,6 @@ const LINES_ADVISED = 500
 
 // The spec counts characters: spreading a string splits it by code point, not UTF-16 unit.
 const length = (text: string) => [...text].length
-
-const isMap = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null && !Array.isArray(value)
 
 const parseFrontmatter = (content: string): { data: unknown } | { problem: string } => {
   const match = /^---\r?\n([\s\S]*?)\r?\n---(\r?\n|$)/.exec(content)

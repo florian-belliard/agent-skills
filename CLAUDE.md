@@ -4,7 +4,8 @@ This repo is a Claude plugin marketplace for one audience (`CONTEXT.md` says whi
 
 ## Entering this repo
 1. Read `CONTEXT.md`.
-2. `task check` before every commit. It runs `check-marketplace` and `claude plugin validate .`: a repo that passes is one every surface accepts.
+2. `task check` before every commit: nothing runs it for you. It runs `check-marketplace` and `claude plugin validate .`, which cover what the surfaces require of the files (ADR-0007). It needs `task`, Bun 1.2.21 or later (for `Bun.YAML`) and the `claude` CLI.
+3. It cannot see the repo's GitHub visibility. A personal or client repo stays private, since organisation sync refuses a public one. Only the public marketplace is public.
 
 ## Rules
 - **This repo is public: nothing personal or client-specific goes in.** A skill coming from `skills` or a `<client>-plugins` repo is generalised first. That means removing:
@@ -22,4 +23,4 @@ This repo is a Claude plugin marketplace for one audience (`CONTEXT.md` says whi
 - **No `bin/` directory at the top of a plugin**: claude.ai rejects the plugin. Executables go in a skill's `scripts/`.
 - **Skill names are unique in the repo**, since `npx skills` installs every skill flat. Keep them unique across your other marketplaces too: no check can see those.
 - **Language**: a skill is written in the language of the people who use it. The repo's docs, code and commits are in English.
-- **Evals** (optional): `plugins/<plugin>/skills/<skill>/evals/evals.json`, in the agentskills.io format. Run outputs go in `<skill>-workspace/`, which git ignores and `task zip` leaves out.
+- **Evals** (optional): `plugins/<plugin>/skills/<skill>/evals/evals.json`, in the agentskills.io format. Run outputs go in `<skill>-workspace/` beside the skill, which git ignores and `task zip` leaves out. The suffix is reserved: `check-marketplace` skips those directories and refuses a skill whose name ends in `-workspace`.

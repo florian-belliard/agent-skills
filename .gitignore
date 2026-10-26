@@ -1,6 +1,9 @@
 # deps
 node_modules/
 
+# env — nothing here needs one; the glob keeps a stray key file out of git
+.env*
+
 # task zip output
 dist/
 
@@ -13,6 +16,8 @@ __pycache__/
 # skill eval runs (agentskills.io "Evaluating skills"): results, never sources
 *-workspace/
 
+# claude code (skills installed per project by `npx skills add`, not this repo's content)
+.claude/skills/
 # claude code (per-machine permission grants — never commit)
 .claude/settings.local.json
 # claude code (handoff note the SessionEnd hook leaves per branch — machine-local)

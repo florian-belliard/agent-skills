@@ -1,8 +1,9 @@
 version: '3'
 
-# Taskfile is the source of truth for dev commands. `check` is the gate before every commit:
-# it runs this repo's own rules (check-marketplace) and Claude Code's (`claude plugin
-# validate`), so a marketplace a surface would refuse never reaches main.
+# Taskfile is the source of truth for dev commands. `check` is the gate to run before every
+# commit: this repo's own rules (check-marketplace, the file constraints of ADR-0007 in
+# claude-code-setup) and Claude Code's (`claude plugin validate`). Nothing runs it for you, and
+# it cannot see what lives outside the files, such as the repo's GitHub visibility.
 
 tasks:
   default:

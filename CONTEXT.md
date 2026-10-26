@@ -13,7 +13,7 @@ A Claude plugin marketplace for one audience: everyone. The repo is public, unde
 - **Surface**: where a plugin runs: Claude Code, the Claude apps (claude.ai, desktop, Cowork), and other agents through `npx skills`.
 
 ## Tech stack
-- Bun + TypeScript for `src/`, the repo's own checks, which ship to no one.
+- Bun 1.2.21 or later + TypeScript for `src/`, the repo's own checks, which ship to no one.
 - Tests run with `bun test`. YAML is parsed with `Bun.YAML`, so the checks have no runtime dependency.
 - Lint with oxlint. Format with oxfmt, pinned exactly. Both skip `plugins/` and `starters/`, whose content is not this repo's code.
 

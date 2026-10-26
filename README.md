@@ -17,7 +17,7 @@ No plugins yet.
 
 ## Contributing
 
-Issues and suggestions are welcome. `CLAUDE.md` holds the rules a new skill or plugin follows, and `task check` enforces them.
+Issues and suggestions are welcome. `CLAUDE.md` holds the rules a new skill or plugin follows, and `task check` enforces them. It needs [Task](https://taskfile.dev), Bun 1.2.21 or later and the `claude` CLI.
 
 ## License
 
