@@ -13,7 +13,16 @@ Claude plugins and Agent Skills by Florian Belliard, free to install and to adap
 <!-- One "### `plugin`" heading per plugin, then one "| `skill` | … |" row per skill.
      `task check` fails when this section and plugins/ disagree. -->
 
-No plugins yet.
+### `rental-search`
+
+A rental search agent for the Claude desktop app (Cowork), in beta and optimised for Paris and the French portals. The skills are written in English and talk to the user in their language; what goes to a landlord or an agency is written in the listing's language. Install it as a plugin: its skills call each other as `rental-search:<skill>` and rely on Cowork's scheduled tasks and built-in browser, so `npx skills` does not give a working agent. To start, say "I'm looking for a flat to rent, help me set up the agent." More in [`plugins/rental-search/README.md`](plugins/rental-search/README.md).
+
+| Skill | What it does | Requires |
+|---|---|---|
+| `setup` | Sets the agent up in conversation, in seven steps: criteria interview, application file and message, the Notion workspace, portal alerts created in the browser, the scheduled runs, then a first live run. Resumes where the user stopped. | Notion and Gmail connectors, scheduled tasks; the built-in browser is recommended |
+| `run` | One pass, started by the scheduled tasks: reads result pages, alert emails and a few agency sites, drops what breaks a deal-breaker, deduplicates, scores, files the rest in Notion, learns from the user's verdicts, drafts replies to agencies and emails a recap. | Notion, Gmail; the built-in browser on the computer (a cloud fallback reads emails only) |
+| `apply` | Applies to the listings the user names: adapts the saved message to each listing, fills the contact form, and sends only what the user approves, listing by listing. Also drafts replies to agencies. | Built-in browser, Gmail, Notion |
+| `tune` | Changes a running agent (criteria, learned rules, pause, hours, sites) and answers questions about a listing: rent cap, DPE, scam signals, the strength of the user's file. | Notion; the built-in browser to update alerts |
 
 ## Contributing
 
