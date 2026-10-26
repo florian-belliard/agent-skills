@@ -14,6 +14,16 @@ const WORKSPACE_SUFFIX = '-workspace'
 // Hooks and MCP servers start on their own on every installer's machine. A plugin may ship them,
 // so they only warn, to draw a reviewer's eye to the pull request that adds them.
 const RUNS_ON_INSTALL = ['hooks', 'mcpServers']
+const RUNS_ON_INSTALL_PATHS = [
+  {
+    path: 'hooks',
+    message: "hooks run commands on every installer's machine; review them as code",
+  },
+  {
+    path: '.mcp.json',
+    message: "MCP servers run on every installer's machine; review them as code",
+  },
+]
 
 type Entry = { name: string; source: unknown; version?: unknown }
 
@@ -118,24 +128,10 @@ const checkManifest = (root: string, plugin: string): Finding[] => {
   ]
 }
 
-const checkRunsOnInstall = (root: string, plugin: string): Finding[] => [
-  ...(existsSync(join(root, 'plugins', plugin, 'hooks'))
-    ? [
-        warning(
-          `plugins/${plugin}/hooks`,
-          "hooks run commands on every installer's machine; review them as code",
-        ),
-      ]
-    : []),
-  ...(existsSync(join(root, 'plugins', plugin, '.mcp.json'))
-    ? [
-        warning(
-          `plugins/${plugin}/.mcp.json`,
-          "MCP servers run on every installer's machine; review them as code",
-        ),
-      ]
-    : []),
-]
+const checkRunsOnInstall = (root: string, plugin: string): Finding[] =>
+  RUNS_ON_INSTALL_PATHS.filter(({ path }) => existsSync(join(root, 'plugins', plugin, path))).map(
+    ({ path, message }) => warning(`plugins/${plugin}/${path}`, message),
+  )
 
 const checkNoBin = (root: string, plugin: string): Finding[] => {
   const bin = join(root, 'plugins', plugin, 'bin')
