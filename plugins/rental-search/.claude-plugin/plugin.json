@@ -1,0 +1,9 @@
+{
+  "name": "rental-search",
+  "description": "Rental search agent (beta, optimised for Paris): reads new listings several times a day, filters out what does not match your criteria, files the rest in Notion, learns from your feedback, emails you a recap and prepares your applications.",
+  "author": {
+    "name": "Florian Belliard"
+  },
+  "license": "MIT",
+  "keywords": ["location", "appartement", "paris", "immobilier", "notion", "rental", "apartment-search"]
+}
