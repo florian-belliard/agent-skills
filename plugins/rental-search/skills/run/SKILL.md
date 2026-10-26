@@ -30,9 +30,10 @@ Unattended modes never ask, never wait, never send anything but the digest.
 2. Read the Settings page at the URL you were given. No URL: search for "Settings — Rental search"; several found in an unattended mode → stop without writing anything (you cannot know which Run log), and say why in your final answer; in an interactive mode → ask which one.
 3. Read `references/notion-access.md` (once per run). Resolve every property, option and Run log name through Settings › Schema; never hardcode a display name.
 4. Read the last 8 Run log rows through the Run log view (one view call; no SQL). You need them for: the stand-down check, T, the IDs and mails already handled, today's warnings, and whether the agency sweep already ran today.
-5. Set the mail window **T** = `Date` of the latest Run log row whose `Outcome` is set and is not Failed, minus 30 minutes (the overlap catches mail that arrived during that run; repeats are caught by dedup and by the `mail-ids` lines). No such row: now minus 16 hours. `first run`: now minus 7 days. Gmail searches use the stored query plus `after:<T in epoch seconds>`.
-6. `computer` only: create this run's Run log row now — `Run` = "<date> <local time> — computer, running", `Date` = start time, `Sources` = [browser marker], no `Outcome` — and fill it in at the end instead of creating a second one. It tells the cloud fallback that the computer is on it, even if the run is long. The browser marker means "the computer ran", so it stays even if the sweep fails. Every stop after this point fills `Outcome` (Failed when the run could not finish); a row still without `Outcome` after 90 minutes counts as Failed.
-7. "Today" always means the date in Settings › User › `Time zone`. Run log `Date` is UTC: convert before comparing.
+5. Read the active criteria through the "My criteria" view (one view call): the gate's card filter needs the deal-breakers. Empty: stop and say the setup is not finished.
+6. Set the mail window **T** = `Date` of the latest Run log row whose `Outcome` is set and is not Failed, minus 30 minutes (the overlap catches mail that arrived during that run; repeats are caught by dedup and by the `mail-ids` lines). No such row: now minus 16 hours. `first run`: now minus 7 days. Gmail searches use the stored query plus `after:<T in epoch seconds>`.
+7. `computer` only: create this run's Run log row now — `Run` = "<date> <local time> — computer, running", `Date` = start time, `Sources` = [browser marker], no `Outcome` — and fill it in at the end instead of creating a second one. It tells the cloud fallback that the computer is on it, even if the run is long. The browser marker means "the computer ran", so it stays even if the sweep fails. Every stop after this point fills `Outcome` (Failed when the run could not finish); a row still without `Outcome` after 90 minutes counts as Failed.
+8. "Today" always means the date in Settings › User › `Time zone`. Run log `Date` is UTC: convert before comparing.
 
 ## Step 1 — Gate (`computer` and `fallback` only)
 
@@ -54,19 +55,19 @@ Anything else on the list: go on to the full run.
 Read each reference when you reach its step.
 
 1. **Learn from the user's verdicts first** — `references/feedback.md` (the stage dating is already done by the gate in scheduled modes). Today's listings are judged with today's rules.
-2. **Read the active criteria** through the "My criteria" view. Empty: stop and say the setup is not finished.
-3. **Collect** — `references/sources.md`:
+2. **Criteria**: read at step 0. If step 1 learned a rule, read the "My criteria" view again.
+3. **Collect** — `references/sources.md`. Skip the mails already listed in the `mail-ids` lines of the last 8 Run log rows.
    - browser cards: already extracted by the gate, or extract them now (`first run`, `manual` with a browser);
    - every alert mail received after T (read the body, never just the subject);
    - human mails after T (the second query);
-   - agency sites, only if Settings lists them and no Run log row of today has the agency marker (or always in `first run`).
+   - agency sites, except in `fallback` (and a `manual` run without the browser): only if Settings lists them and no Run log row of today has the agency marker (or always in `first run`).
    Open a listing's detail page only for candidates that already passed the deal-breakers.
 4. **Filter on deal-breakers**, on evidence only — `references/dedup-and-scoring.md`.
 5. **Deduplicate** each surviving candidate — same reference.
 6. **Score and write** every listing that passed the deal-breakers, low scores included — same reference. `link` is mandatory.
 7. **Human mails** (an agency or landlord writing to the user): draft a reply in Gmail, in the thread's language, inside the thread (`create_draft`). **Never send it.** Note the thread in the Run log and append a line to the matching listing's `agent_notes`. **Test mode** (Settings › Digest › `Test mode` = yes): no draft, only the Run log note; the main agent drafts the reply.
 8. **Weekly rules check**: if Settings › Upkeep › `Last rules check` is more than 7 days old, verify the date-sensitive rules (`references/french-rental-rules.md`) with a web search, then update that date.
-9. **Run log row**: `Run` = "<date> <local time> — <mode>, <n> new", `Date` = start time, `Outcome` (OK; Partial when a source failed or was blocked; Failed when the run could not finish), `Sources` (the browser marker for a `computer` run, the agency marker when agency sites were read), `Seen`, `New`, `Notes` = `emails read: N` (alert mails only), one line per kind of decision (written, duplicate of …, dropped on …), the warnings sent (`warned: silent alerts`, `warned: computer off`, `blocked: <site>`), a `question: …` line if feedback raised one, a line `mail-ids: <Gmail message ids of the human mails handled>`, then a last line `seen-ids: <the key of every listing dropped or merged this run>`. English. In `computer`, fill in the row created at step 0.
+9. **Run log row**: `Run` = "<date> <local time> — <mode>, <n> new", `Date` = start time, `Outcome` (OK; Partial when a source failed or was blocked; Failed when the run could not finish), `Sources` (the browser marker for a `computer` run, the agency marker when agency sites were read), `Seen`, `New`, `Notes` = `emails read: N` (alert mails only), one line per kind of decision (written, duplicate of …, dropped on …), the warnings sent (`warned: silent alerts`, `warned: computer off`, `blocked: <site>`), a `question: …` line if feedback raised one, a line `mail-ids: <the Gmail message id of every mail read this run, alert and human mails>`, then a last line `seen-ids: <the key of every listing dropped or merged this run>`. English. In `computer`, fill in the row created at step 0.
 10. **Digest** — `references/digest.md`: the fixed template, only if at least one new row was written or there is at least one info line (human mail, confirmed visit, price drop on a favourite, learned rule, silent alerts, blocked site; in `fallback`, the computer-off line too, which never triggers a digest on its own).
 11. **Close every browser tab.** Answer in three lines, in the user's language: new rows, best score, anything they must know.
 
