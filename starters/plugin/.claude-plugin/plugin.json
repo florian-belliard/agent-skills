@@ -1,0 +1,8 @@
+{
+  "name": "plugin-name",
+  "description": "What the plugin brings, in one sentence.",
+  "author": {
+    "name": "Florian Belliard"
+  },
+  "license": "MIT"
+}
