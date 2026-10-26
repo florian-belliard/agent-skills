@@ -65,6 +65,26 @@ describe('checkSkill', () => {
     expect(errors(skill(`name: ${long}\ndescription: Does one thing.`), long)).toHaveLength(1)
   })
 
+  test('reports a name that contains a word Anthropic reserves', () => {
+    expect(
+      errors(skill('name: claude-helper\ndescription: Does one thing.'), 'claude-helper'),
+    ).toEqual([
+      'name "claude-helper" must not contain "anthropic" or "claude" (reserved by Anthropic)',
+    ])
+  })
+
+  test('reports XML tags in the description', () => {
+    expect(errors(skill('name: my-skill\ndescription: Does <b>one</b> thing.'))).toEqual([
+      'description must not contain XML tags (claude.ai rejects the skill)',
+    ])
+  })
+
+  test('accepts a lone angle bracket in the description', () => {
+    expect(
+      errors(skill('name: my-skill\ndescription: Use when the rent is < 2000 euros.')),
+    ).toEqual([])
+  })
+
   test('reports a missing name and a missing description', () => {
     expect(errors(skill('license: MIT'))).toEqual([
       'name is required',
