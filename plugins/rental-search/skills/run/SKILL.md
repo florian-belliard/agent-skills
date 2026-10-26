@@ -30,17 +30,16 @@ Unattended modes never ask, never wait, never send anything but the digest.
 2. Read the Settings page at the URL you were given. No URL: search for "Settings — Rental search"; several found in an unattended mode → stop without writing anything (you cannot know which Run log), and say why in your final answer; in an interactive mode → ask which one.
 3. Read `references/notion-access.md` (once per run). Resolve every property, option and Run log name through Settings › Schema; never hardcode a display name.
 4. Read the last 8 Run log rows through the Run log view (one view call; no SQL). You need them for: the stand-down check, T, the IDs and mails already handled, today's warnings, and whether the agency sweep already ran today.
-5. Read the active criteria through the "My criteria" view (one view call): the gate's card filter needs the deal-breakers. Empty: stop and say the setup is not finished.
-6. Set the mail window **T** = `Date` of the latest Run log row whose `Outcome` is set and is not Failed, minus 30 minutes (the overlap catches mail that arrived during that run; repeats are caught by dedup and by the `mail-ids` lines). No such row: now minus 16 hours. `first run`: now minus 7 days. Gmail searches use the stored query plus `after:<T in epoch seconds>`.
-7. `computer` only: create this run's Run log row now — `Run` = "<date> <local time> — computer, running", `Date` = start time, `Sources` = [browser marker], no `Outcome` — and fill it in at the end instead of creating a second one. It tells the cloud fallback that the computer is on it, even if the run is long. The browser marker means "the computer ran", so it stays even if the sweep fails. Every stop after this point fills `Outcome` (Failed when the run could not finish); a row still without `Outcome` after 90 minutes counts as Failed.
-8. "Today" always means the date in Settings › User › `Time zone`. Run log `Date` is UTC: convert before comparing.
+5. Set the mail window **T** = `Date` of the latest Run log row whose `Outcome` is set and is not Failed, minus 30 minutes (the overlap catches mail that arrived during that run; repeats are caught by dedup and by the `mail-ids` lines). No such row: now minus 16 hours. `first run`: now minus 7 days. Gmail searches use the stored query plus `after:<T in epoch seconds>`.
+6. `computer` only: create this run's Run log row now — `Run` = "<date> <local time> — computer, running", `Date` = start time, `Sources` = [browser marker], no `Outcome` — and fill it in at the end instead of creating a second one. It tells the cloud fallback that the computer is on it, even if the run is long. The browser marker means "the computer ran", so it stays even if the sweep fails. Every stop after this point fills `Outcome` (Failed when the run could not finish); a row still without `Outcome` after 90 minutes counts as Failed.
+7. "Today" always means the date in Settings › User › `Time zone`. Run log `Date` is UTC: convert before comparing.
 
 ## Step 1 — Gate (`computer` and `fallback` only)
 
 **`fallback` first:** if a Run log row whose `Sources` contain the browser marker (Schema › run_log › browser_source) has a `Date` less than 90 minutes old and an `Outcome` that is not Failed (or no `Outcome` yet: still running): answer "Already handled by the computer run." and stop. No write.
 
 Then:
-1. `computer` only: load the two result pages and extract the cards (`references/sources.md` › Browser sweep). Apply the card-level filter.
+1. Read the active criteria through the "My criteria" view (one view call): the card filter needs the deal-breakers. Empty: stop and say the setup is not finished. Then, `computer` only: load the two result pages and extract the cards (`references/sources.md` › Browser sweep). Apply the card-level filter.
 2. Known IDs = IDs in Listings (one query for the whole batch) **plus** the `seen-ids` lines of the last 8 Run log rows (listings already dropped or merged by earlier runs).
 3. One Gmail search, metadata only, with both stored queries (alerts and human mails) after T. Drop the message ids already listed in the `mail-ids` lines of the last 8 Run log rows.
 4. Verdicts waiting: one view call on "Feedback queue".
@@ -55,7 +54,7 @@ Anything else on the list: go on to the full run.
 Read each reference when you reach its step.
 
 1. **Learn from the user's verdicts first** — `references/feedback.md` (the stage dating is already done by the gate in scheduled modes). Today's listings are judged with today's rules.
-2. **Criteria**: read at step 0. If step 1 learned a rule, read the "My criteria" view again.
+2. **Read the active criteria** through the "My criteria" view, unless the gate already did and step 1 learned no rule. Empty: stop and say the setup is not finished.
 3. **Collect** — `references/sources.md`. Skip the mails already listed in the `mail-ids` lines of the last 8 Run log rows.
    - browser cards: already extracted by the gate, or extract them now (`first run`, `manual` with a browser);
    - every alert mail received after T (read the body, never just the subject);

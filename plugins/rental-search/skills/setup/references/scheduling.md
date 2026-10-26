@@ -10,7 +10,7 @@ Say the quoted sentences in the user's language.
 2. First say what is in "What to say about the computer" (below). Then: "I'll run the search at 9:00, 12:00, 15:00 and 18:00. Other times?" Update the number of runs and the hours in the home page callout.
 3. Their time zone: take it from the city (Europe/Paris for France) unless they say otherwise. Store it in Settings › User › `Time zone`.
 
-## Create two scheduled tasks
+## Create the scheduled tasks
 
 Use the scheduled-task tools (`create_trigger`). Read their current schema first and follow their own guidance on cron minutes and jitter.
 
