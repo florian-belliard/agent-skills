@@ -2,6 +2,7 @@
 name: setup
 license: MIT
 description: Set up a personal rental-search agent from scratch, in the user's language - presents the agent, interviews the user on their criteria, prepares their application message, builds a clean Notion workspace, creates portal alerts in the built-in browser, schedules the runs and does a first run live. Use when someone wants to start (or resume) their apartment rental search with the rental-search plugin.
+compatibility: Claude desktop app (Cowork) on a paid plan. Needs the Notion and Gmail connectors and scheduled tasks; the built-in browser is recommended. Part of the rental-search plugin.
 ---
 
 # rental-search:setup
