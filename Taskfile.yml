@@ -1,9 +1,9 @@
 version: '3'
 
 # Taskfile is the source of truth for dev commands. `check` is the gate to run before every
-# commit: this repo's own rules (check-marketplace, the file constraints of ADR-0007 in
-# claude-code-setup) and Claude Code's (`claude plugin validate`). Nothing runs it for you, and
-# it cannot see what lives outside the files, such as the repo's GitHub visibility.
+# commit: this repo's own rules (check-marketplace) and Claude Code's (`claude plugin validate`).
+# Nothing runs it for you, and it cannot see what lives outside the files, such as the repo's
+# GitHub settings.
 
 tasks:
   default:
@@ -15,12 +15,12 @@ tasks:
       - bunx oxlint
       - task: lint:dirs
   lint:dirs:
-    desc: 'Fail on a src/ directory that is not kebab-case — oxlint only checks file names (ADR-0002 of the claude-code-setup repo)'
+    desc: 'Fail on a src/ directory that is not kebab-case: oxlint only checks file names'
     silent: true
     cmd: |
       bad="$(git ls-files --cached --others --exclude-standard src | awk -F/ '{for (i = 1; i < NF; i++) print $i}' | sort -u | grep -vE '^[a-z0-9]+(-[a-z0-9]+)*$' || true)"
       if [ -n "$bad" ]; then
-        echo "Directory names must be kebab-case (ADR-0002 of the claude-code-setup repo):"
+        echo "Directory names must be kebab-case:"
         printf '%s\n' "$bad" | sed 's/^/  /'
         exit 1
       fi

@@ -2,7 +2,10 @@
   "name": "plugin-name",
   "description": "What the plugin brings, in one sentence.",
   "author": {
-    "name": "Florian Belliard"
+    "name": "Florian Belliard",
+    "url": "https://github.com/florian-belliard"
   },
+  "homepage": "https://github.com/florian-belliard/agent-skills/tree/main/plugins/plugin-name",
+  "repository": "https://github.com/florian-belliard/agent-skills",
   "license": "MIT"
 }

@@ -1,7 +1,7 @@
 # deps
 node_modules/
 
-# env — nothing here needs one; the glob keeps a stray key file out of git
+# env: nothing here needs one; the glob keeps a stray key file out of git
 .env*
 
 # task zip output
@@ -11,20 +11,19 @@ dist/
 .DS_Store
 *.log
 *.tsbuildinfo
-__pycache__/
 
 # skill eval runs (agentskills.io "Evaluating skills"): results, never sources
 *-workspace/
 
-# claude code (skills installed per project by `npx skills add`, not this repo's content)
+# Claude Code: skills installed in this project by `npx skills add`, not this repo's content
 .claude/skills/
-# claude code (per-machine permission grants — never commit)
+# Claude Code: per-machine permission grants
 .claude/settings.local.json
-# claude code (handoff note the SessionEnd hook leaves per branch — machine-local)
+# Claude Code: per-machine session notes
 .claude/handoff/
-# claude code (worktrees created by EnterWorktree; Superpowers' .worktrees/ too)
+# Claude Code worktrees, and the .worktrees/ other tools create
 .claude/worktrees/
 .worktrees/
 
-# /claude-security reports (ADR-0004 of the claude-code-setup repo)
+# security scan reports: never committed
 CLAUDE-SECURITY-*/

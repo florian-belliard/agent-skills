@@ -1,9 +1,12 @@
 {
   "name": "rental-search",
-  "description": "Rental search agent (beta, optimised for Paris): reads new listings several times a day, filters out what does not match your criteria, files the rest in Notion, learns from your feedback, emails you a recap and prepares your applications.",
+  "description": "Rental search agent for the Claude desktop app (beta, France, optimised for Paris): reads new listings several times a day, filters out what does not match your criteria, files the rest in Notion, learns from your feedback, emails you a recap and prepares your applications.",
   "author": {
-    "name": "Florian Belliard"
+    "name": "Florian Belliard",
+    "url": "https://github.com/florian-belliard"
   },
+  "homepage": "https://github.com/florian-belliard/agent-skills/tree/main/plugins/rental-search",
+  "repository": "https://github.com/florian-belliard/agent-skills",
   "license": "MIT",
-  "keywords": ["location", "appartement", "paris", "immobilier", "notion", "rental", "apartment-search"]
+  "keywords": ["location", "appartement", "paris", "immobilier", "notion", "rental", "apartment-search", "france", "cowork"]
 }

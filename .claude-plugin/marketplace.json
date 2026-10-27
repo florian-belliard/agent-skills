@@ -1,12 +1,12 @@
 {
   "name": "florian-belliard",
-  "owner": { "name": "Florian Belliard" },
+  "owner": { "name": "Florian Belliard", "url": "https://github.com/florian-belliard" },
   "description": "Claude plugins and Agent Skills by Florian Belliard, free to install.",
   "plugins": [
     {
       "name": "rental-search",
       "source": "./plugins/rental-search",
-      "description": "Rental search agent (beta, optimised for Paris): reads new listings several times a day, files the ones that match your criteria in Notion, learns from your feedback, emails you a recap and prepares your applications."
+      "description": "Rental search agent for the Claude desktop app (beta, France, optimised for Paris): reads new listings several times a day, filters out what does not match your criteria, files the rest in Notion, learns from your feedback, emails you a recap and prepares your applications."
     }
   ]
 }
