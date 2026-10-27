@@ -244,7 +244,7 @@ Every criteria page gets the database's icon, `icons/target_red`, the learned on
 
 Create every linked view block (`parent_page_id`) with **`show_data_source_title: false`**: no database title above any view. A tab added with `database_id` ("Archives") takes no such parameter.
 
-Where the machine views go: "Feedback queue" and "Recent listings" with `parent_page_id` = their BACKEND sub-page; "Latest runs" with `database_id` = the Run log database, as a tab of the database itself.
+Where the machine views go: "Feedback queue" and "Recent listings" with `parent_page_id` = their BACKEND sub-page; "Latest runs" with `database_id` = the Run log database, as a tab of the database itself, next to its default view. Settings › Views › `Run log` stores the URL of this tab.
 
 | On | Name (EN / FR) | Type | Configure (with display names) |
 |---|---|---|---|

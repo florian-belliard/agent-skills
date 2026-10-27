@@ -38,7 +38,7 @@ Created at the very start of the setup (title gets " (test)" in test mode), fill
 - Feedback queue = <view URL>
 - My criteria = <view URL>
 - Recent listings = <view URL>
-- Run log = <view URL>
+- Run log = <view URL> (the "Latest runs" tab of the Run log database)
 
 ## Schema
 ```json
