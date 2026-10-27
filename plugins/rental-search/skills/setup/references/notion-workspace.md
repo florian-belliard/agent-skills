@@ -19,10 +19,11 @@ Fixed in every language: the **Run log** (machine log, English), the **Settings*
 1. Page **"Rental search"** (title in the user's language). Icon `circle-four-eighths`, brown (`icons/circle-four-eighths_brown`). Cover: Notion's solid beige (`https://app.notion.com/images/page-cover/solid_beige.png`).
 2. Inside it, three databases, **full page (not inline)**: **Listings** (icon `home`, red), **Criteria** (icon `target`, red), **Run log** (icon `clock`, red).
 3. The page **"My application"** (content and icons: `references/application-message.md`).
-4. Schema of each database (below), then each `page_layout` in a **separate** call.
-5. The criteria rows (from Settings › Criteria draft), each with the page icon `icons/target_red`; then clear the draft.
-6. The views (below), then the page content (below), then move "My application" into the callout.
-7. The Settings content: Workspace, Views, Schema.
+4. The two BACKEND sub-pages, inside it (the page content below places their `<page>` tags in the BACKEND toggle): **"Feedback queue"** (icon `chat`, red: `icons/chat_red`) and **"Recent listings"** (icon `history`, red: `icons/history_red`), titles in the user's language. Each will hold one machine view, nothing else.
+5. Schema of each database (below), then each `page_layout` in a **separate** call.
+6. The criteria rows (from Settings › Criteria draft), each with the page icon `icons/target_red`; then clear the draft.
+7. The views (below), then the page content (below), then move "My application" into the callout.
+8. The Settings page: icon `gear`, red (`icons/gear_red`); then its content: Workspace, Views, Schema.
 
 Tools: `notion-create-database`, `notion-update-data-source` (schema, then `page_layout` in a separate call), `notion-create-view`, `notion-update-view`, `notion-create-pages`, `notion-update-page`. Read each tool's schema before calling it.
 
@@ -64,7 +65,7 @@ My criteria
 <toggle heading="h3" color="red_bg">
 <span color="red">BACKEND (DO NOT TOUCH)</span>
 
-<page url="<Settings>">Settings — Rental search</page>
+<page url="<Settings>" color="red">Settings — Rental search</page>
 
 <database url="<Listings>" inline="false" icon="/icons/home_red.svg" color="red">Listings</database>
 
@@ -72,18 +73,16 @@ My criteria
 
 <database url="<Run log>" inline="false" icon="/icons/clock_red.svg" color="red">Run log</database>
 
-<database url="<Feedback queue view>" inline="true"></database>
+<page url="<Feedback queue page>" color="red">Feedback queue</page>
 
-<database url="<Recent listings view>" inline="true"></database>
-
-<database url="<Run log view>" inline="true"></database>
+<page url="<Recent listings page>" color="red">Recent listings</page>
 </toggle>
 ```
 
 Rules:
 - The three user sections are **H2 toggle headings of the same size**, no colour. The BACKEND toggle is **H3, red background, red text**, and always last.
 - "My application" sits **inside the callout**, as its last child. Create the page under "Rental search", then move its `<page url="…">` tag into the callout with `update_content` (same tag removed from its old place, in one call: Notion moves it, nothing is deleted). Never recreate it to move it.
-- The three machine views in BACKEND (Feedback queue, Recent listings, Run log) exist so that `run` can read through views without using Notion's SQL allowance. Nothing else goes in BACKEND, and there is no other "behind the scenes" section.
+- The three machine views (Feedback queue, Recent listings, Run log) exist so that `run` can read through views without using Notion's SQL allowance. Feedback queue and Recent listings each sit alone in their red sub-page; the Run log view is the "Latest runs" tab of the Run log database. No view block sits directly in BACKEND, nothing else goes in it, and there is no other "behind the scenes" section.
 - No other block on the page: no extra heading, text, divider or view.
 
 ## Listings
@@ -245,6 +244,8 @@ Every criteria page gets the database's icon, `icons/target_red`, the learned on
 
 Create every linked view block (`parent_page_id`) with **`show_data_source_title: false`**: no database title above any view. A tab added with `database_id` ("Archives") takes no such parameter.
 
+Where the machine views go: "Feedback queue" and "Recent listings" with `parent_page_id` = their BACKEND sub-page; "Latest runs" with `database_id` = the Run log database, as a tab of the database itself.
+
 | On | Name (EN / FR) | Type | Configure (with display names) |
 |---|---|---|---|
 | Listings | To decide / À décider | gallery | `FILTER "Decision" IS EMPTY; FILTER "Stage" != "Gone"; SORT BY "Score" DESC, "Posted" DESC; SHOW "Listing", "Monthly rent", "Living area", "Location"; CARD LAYOUT default` — card preview: the page cover |
@@ -253,7 +254,7 @@ Create every linked view block (`parent_page_id`) with **`show_data_source_title
 | Criteria | My criteria / Mes critères | table | `FILTER "Active" = TRUE; SORT BY "Weight" DESC; SHOW "Criterion", "Type", "Weight", "Detail", "Origin"` |
 | Listings | Feedback queue / Retours à traiter | table | `FILTER "Decision" IS NOT EMPTY; FILTER "Feedback processed" = FALSE; SHOW "Listing", "Decision", "Stage", "Reasons", "My comment", "Fingerprint", "Rent", "Surface", "Area"` |
 | Listings | Recent listings / Annonces récentes | table | `FILTER "Added on" >= "one_month_ago"; SORT BY "Added on" DESC; SHOW "Listing", "Link", "Fingerprint", "Area", "Address", "Rent", "Rent excludes charges", "Surface", "Floor", "Furnished", "Source", "Stage", "Decision", "Reasons"` |
-| Run log | Run log | table | `SORT BY "Date" DESC; SHOW "Run", "Date", "Outcome", "Sources", "New", "Notes"` |
+| Run log | Latest runs | table | `SORT BY "Date" DESC; SHOW "Run", "Date", "Outcome", "Sources", "New", "Notes"` |
 
 The card of "To decide" shows only the title, Monthly rent, Living area and Location: no freshness, no score, no summary (the summary is on the page; the score still sorts the cards).
 
@@ -273,4 +274,4 @@ Its template is in `settings-page.md` (created at the very start of the setup). 
 
 ## Check before ticking step 4
 
-Fetch the home page and compare it with the "Page content" block above, line by line: callout (icon, colour, three paragraphs, "My application" inside), three H2 toggles with their views and no database titles ("My selection" with its two tabs Tracking and Archives), divider, red H3 BACKEND toggle last. Fetch one listing page layout and all the views (the four user views and the three in BACKEND) and compare them with this file: filters, sorts, shown properties. Fix any difference before going on.
+Fetch the home page and compare it with the "Page content" block above, line by line: callout (icon, colour, three paragraphs, "My application" inside), three H2 toggles with their views and no database titles ("My selection" with its two tabs Tracking and Archives), divider, red H3 BACKEND toggle last: Settings (red gear, red title), the three databases, then the two red sub-pages, and no view block. Fetch one listing page layout and all the views (the four user views and the three machine views: one in each BACKEND sub-page, one tab of Run log) and compare them with this file: filters, sorts, shown properties. Fix any difference before going on.
