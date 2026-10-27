@@ -70,6 +70,6 @@ One message, with these parts in this order:
 
 2. **What you added yourself**, one line each: the criteria added without asking. Leave this part out when you added nothing.
 3. **The feedback loop**, in one line: "These criteria aren't set in stone: when you turn down a listing with a word of explanation, I use it. Two rejections for the same reason become a new criterion, which you'll see and can delete."
-4. **The question, last.** The closing paragraph ends with "What's wrong in there?", asked as a question. A decision you need from them (a rule an older profile had, two criteria that contradict each other) comes just before it, in the same closing paragraph, with the options in the sentence.
+4. **The question, last.** One question closes the message: "What's wrong in there?", asked as a question. When you need a decision from them (a rule an older profile had, two criteria that contradict each other), say why in the sentence before, then put the decision and its options into that same question: "Shall I put DPE G back as a deal-breaker or leave it out, and what else is wrong in there?"
 
 Fix what they correct, then move to step 3.
