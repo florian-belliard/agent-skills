@@ -2,6 +2,7 @@
 name: tune
 license: MIT
 description: Adjust a running rental-search agent on request - change criteria, review or delete what the agent learned, pause or resume the scheduled runs, change hours or digest address, add or remove a site, or ask about a listing (is the rent legal, is it a scam, does my file stand a chance). Use when the user wants to change how their rental search works, or asks a question about a listing or French rental rules.
+compatibility: Claude desktop app (Cowork). Needs the Notion connector and scheduled tasks; the built-in browser to change portal alerts. Part of the rental-search plugin.
 ---
 
 # rental-search:tune

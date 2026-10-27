@@ -2,6 +2,7 @@
 name: run
 license: MIT
 description: One pass of the rental-search agent - reads new listings (portal result pages in the built-in browser, alert emails, a few agency sites), drops what breaks the user's deal-breakers, deduplicates, scores, writes the rest to Notion, learns from the user's verdicts, drafts replies to agencies, logs the run and sends one digest email. Use when a rental-search scheduled task fires, when setup runs the first pass, or when the user asks to run the search now.
+compatibility: Claude desktop app (Cowork) scheduled tasks, on the computer or in the cloud (emails only). Needs the Notion and Gmail connectors; the built-in browser on the computer. Part of the rental-search plugin.
 ---
 
 # rental-search:run
