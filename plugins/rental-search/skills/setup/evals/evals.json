@@ -1,0 +1,17 @@
+{
+  "skill_name": "setup",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "(Setup in progress: evals/files/step-2-existing-criteria.md says where it stands.) Oui, reprends mes critères existants, ils sont bons.",
+      "expected_output": "The step 2 read-back, in French: the profile in five lines, the criterion added without asking, the feedback-loop line, then one closing paragraph that asks about DPE G with its options and ends with \"What's wrong in there?\". The message ends with that question, so the user sees the agent is waiting.",
+      "files": ["evals/files/step-2-existing-criteria.md"],
+      "assertions": [
+        "The last line of the message is a question and ends with a question mark",
+        "Nothing follows the question: no explanation, option or feedback-loop sentence after it",
+        "The feedback-loop line (two rejections for the same reason become a new criterion) comes before the question",
+        "The DPE G decision is asked in the closing paragraph, with its options in the sentence"
+      ]
+    }
+  ]
+}

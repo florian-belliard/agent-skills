@@ -58,16 +58,18 @@ Field names and option labels come from the Schema (canonical keys below; displa
 
 ## Read the profile back
 
-In five lines maximum, then ask "What's wrong in there?". Example:
+One message, with these parts in this order:
 
-> **Paris 14th and 15th first, then 13th and 12th (not beyond the ring road).**
-> **Rent: ideal €1,700, never above €1,950 charges included.**
-> **2 rooms (T2) minimum, 40 m² minimum, ideally over 50 m², furnished or not.**
-> **No ground floor, lift required from the 4th floor.**
-> **What matters most: light and a quiet bedroom.**
+1. **The profile**, in five lines maximum. Example:
+
+   > **Paris 14th and 15th first, then 13th and 12th (not beyond the ring road).**
+   > **Rent: ideal €1,700, never above €1,950 charges included.**
+   > **2 rooms (T2) minimum, 40 m² minimum, ideally over 50 m², furnished or not.**
+   > **No ground floor, lift required from the 4th floor.**
+   > **What matters most: light and a quiet bedroom.**
+
+2. **What you added yourself**, one line each: the criteria added without asking. Leave this part out when you added nothing.
+3. **The feedback loop**, in one line: "These criteria aren't set in stone: when you turn down a listing with a word of explanation, I use it. Two rejections for the same reason become a new criterion, which you'll see and can delete."
+4. **The question, last.** The closing paragraph ends with "What's wrong in there?", asked as a question. A decision you need from them (a rule an older profile had, two criteria that contradict each other) comes just before it, in the same closing paragraph, with the options in the sentence.
 
 Fix what they correct, then move to step 3.
-
-## Explain the feedback loop (one line, at the end)
-
-> "These criteria aren't set in stone: when you turn down a listing with a word of explanation, I use it. Two rejections for the same reason become a new criterion, which you'll see and can delete."
