@@ -49,4 +49,4 @@ Unattended runs stop whenever an action needs approval and nobody is there. Afte
 
 Say it plainly, before asking about the hours:
 
-> "For now, I need your computer on, with the Claude app open, at run times: that's how I open the browser and do the job well. When it's off, a fallback runs 45 minutes later, on your emails only. It still works, but it sees fewer listings and less detail (no floor, no DPE from the result pages). So leave your computer on at those times if you can. When is it usually on? I'll pick the run times to match."
+> "For now, I need your computer on, with the Claude app open, at run times: that's how I open the browser and do the job well. When it's off, a fallback runs 45 minutes later, on your emails only. It still works, but it sees fewer listings and less detail (no floor, no DPE from the result pages). So leave your computer on at those times if you can: I'll pick the run times to match the hours it's usually on."
