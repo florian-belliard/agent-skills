@@ -57,7 +57,7 @@ An update changes how the next runs behave. It leaves what setup created as it i
 ## What the agent touches
 
 - **Gmail**: it reads your portal alerts, and the mails to your application address that look like an agency's reply. It creates a "Rental search" label, and a Gmail filter after your ok. It writes reply drafts and sends you the recap, and sends nothing else on its own.
-- **Notion**: it creates a home page, three databases (listings, criteria, run log), a "My application" page and a "Settings" page. Your contact details, situation and DossierFacile link live in "My application".
+- **Notion**: it creates a home page, three databases (listings, criteria, run log), a "My application" page, a "Settings" page and two pages of views it reads (in BACKEND, at the bottom of the home page). Your contact details, situation and DossierFacile link live in "My application".
 - **The built-in browser**: it reads result pages and listings. It creates alerts and fills application forms only after your ok. Sites you log in to there stay logged in; the agent signs you out of Google after creating the Gmail filter.
 - **Outside services**: listing addresses go to the French government geocoder (`data.geopf.fr`) to place them on the map, and a weekly web search checks that the rental rules it applies are still current.
 
