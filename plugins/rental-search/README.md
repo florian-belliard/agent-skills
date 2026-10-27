@@ -71,26 +71,28 @@ An update changes how the next runs behave. It leaves what setup created as it i
 ## Privacy and risks
 
 - **Where your data lives.** Your criteria, listings, notes, contact details and DossierFacile link are in your Notion. Alerts, recaps and agency replies are in your Gmail. Neither this repository nor its author receives anything.
-- **What Claude sees.** To work, Claude reads your alert emails, the agency replies, the listing pages and your Notion pages, under your Claude account's terms. The Gmail and Notion connectors give it access to your whole mailbox and workspace: the skills tell it to read only the alert mails and the replies to your applications, but the access itself is the connector's.
-- **Outside services.** The geocoder receives listing addresses and the weekly web search receives questions about the rules, nothing about you. The portals see the agent's visits as yours, from your browser.
-- **Content that tries to steer the agent.** A mail or a listing could hold text written to make the agent act: send a document, write to someone, open a link. The agent treats every mail and page as data, sends no mail but your recap, and applies only after your ok, listing by listing. These rules lower the risk; they cannot remove it, so read what you approve. If you see the agent do something you did not ask for, see [`SECURITY.md`](../../SECURITY.md).
-- **A separate mailbox, if you prefer.** Setup suggests a `+location` alias of your Gmail address so alerts are easy to find. To keep the agent away from your main mailbox, create a Gmail account for the search and connect that one instead.
+- **What Claude sees.** To work, Claude reads your alert emails, the agency replies, the listing pages and your Notion pages, under your Claude account's terms. The Gmail and Notion connectors give it access to your whole mailbox and workspace: the skills tell it to read only your alert mails and the mails to your application address that look like an agency's reply (a keyword match on words such as « visite » or « dossier », so an unrelated mail can match), but the access itself is the connector's.
+- **Outside services.** The geocoder receives listing addresses and the weekly web search receives questions about the rules, nothing about you. The portals see the agent's visits, mostly through your browser; a few listing pages (PAP, Leboncoin) are fetched directly, without it.
+- **Content that tries to steer the agent.** A mail or a listing could hold text written to make the agent act: send a document, write to someone, open a link. The agent treats every mail and page as data, sends no mail on its own but your recap, and applies only after your ok, listing by listing. These rules lower the risk; they cannot remove it, so read what you approve. If you see the agent do something you did not ask for, see [`SECURITY.md`](../../SECURITY.md).
+- **A separate mailbox, if you prefer.** Setup suggests a `+location` alias of your Gmail address so alerts are easy to find. To keep the agent away from your main mailbox, create a Gmail account for the search, connect that one instead, and give its address for your applications too: the agent looks for agency replies in the connected mailbox only.
 
 ## Stop, pause, uninstall
 
 - **Pause**: say "pause the search". The scheduled tasks are turned off until you say "resume the search". Nothing else changes.
-- **Remove everything**, in this order:
-  1. Delete the scheduled tasks, "Rental search — computer" and "Rental search — fallback" (named in your language; without the built-in browser, only the fallback exists), from the desktop app's scheduled tasks.
+- **Remove everything**, in this order (the names below are in your language):
+  1. Delete the scheduled tasks, "Rental search — computer" and "Rental search — fallback" (without the built-in browser, only the fallback exists), from the desktop app's scheduled tasks.
   2. Delete the alerts on each portal, from your account on the site. Keep them if you still want their emails.
   3. In Gmail, delete the filter that applies the "Rental search" label (**Settings › Filters and blocked addresses**), then the label. Deleting a label keeps its mails.
   4. Remove the plugin: in **Customize > Plugins**, open `rental-search`, open its menu and select **Remove**. In Claude Code: `claude plugin uninstall rental-search@florian-belliard`.
   5. Last, delete the "Rental search" page in Notion: its databases, "My application" and "Settings — Rental search" go with it. Export it first if you want to keep your listings and notes.
-- **What stays**: the mails you received and the drafts in Gmail, the applications you sent (the agencies have them), your accounts on the portals, the sites you logged in to in the built-in browser (log out there if you like), the Notion and Gmail connectors (disconnect them in **Customize > Connectors** if nothing else uses them), and your conversations with Claude.
+
+  A test search set up next to the main one has its own tasks and pages, ending in "(test)": remove them the same way.
+- **What stays**: the mails you received and the drafts in Gmail, the applications you sent (the agencies have them), your accounts on the portals, the sites you logged in to in the built-in browser (log out there if you like), the Notion and Gmail connectors (disconnect them in **Customize > Connectors** if nothing else uses them), the `florian-belliard` marketplace (remove it in **Customize > Plugins** if you use no other plugin from it), and your conversations with Claude.
 
 ## Limits and responsibility
 
 - **France only.** Built for the French portals (SeLoger, Bien'ici, Leboncoin, PAP, Figaro Immobilier, Gens de Confiance) and the French rental rules, and optimised for Paris and its rent control. Elsewhere in France it works, less precisely. It is not designed for other countries.
-- **Flatshares.** Listings for a room in a flatshare are set aside. A group renting a whole flat together is fine: whole flats are what the agent looks for.
+- **Flatshares.** Listings marked « colocation » are set aside, except a private landlord's listing priced like a whole flat. A group renting a whole flat together can use the agent, but may miss whole flats an agency lists as « colocation ».
 - **Not legal advice.** What the agent says about rent control, the DPE or your file is information to check, not legal advice. Your département's ADIL answers such questions for free.
 - **The sites' terms apply.** The agent reads the portals with your browser and your accounts, and stops at any anti-bot check. Using a site through the agent is still your use of that site.
 - **No affiliation.** This plugin is not affiliated with Anthropic, Notion, Google or any portal.

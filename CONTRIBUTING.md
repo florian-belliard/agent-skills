@@ -23,7 +23,7 @@ bun install
 task check
 ```
 
-`task check` lints, formats, type-checks and tests the repo's own code in `src/`. It then checks that the Claude catalog, the plugin folders, every `SKILL.md` and the README catalog agree, and ends with `claude plugin validate .`. There is no CI: run it before every commit.
+`task check` lints, formats, type-checks and tests the repo's own code in `src/`. It then checks that the Claude catalog, the plugin folders, their skills and the README catalog agree, and ends with `claude plugin validate .`. It does not read `skills/` yet: that comes with the first portable skill. There is no CI: run it before every commit.
 
 - A new skill starts from `starters/skill/`, a new plugin from `starters/plugin/`.
 - [`CLAUDE.md`](CLAUDE.md) holds the rules a change follows, [`CONTEXT.md`](CONTEXT.md) the vocabulary and the layout.

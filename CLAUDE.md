@@ -17,5 +17,6 @@ This repo publishes plugins and Agent Skills; `CONTEXT.md` gives its vocabulary 
 - **No `version`** in `plugin.json`: the plugin then updates on every commit to `main`. With one, nobody gets a change until it is bumped. `claude plugin validate` warns "No version specified": that warning is expected.
 - **No `bin/` directory at the top of a plugin**: claude.ai rejects the plugin. Executables go in a skill's `scripts/`.
 - **Skill names are unique in the repo**, since `npx skills` installs every skill flat. The one exception will be a plugin's checked copy of a portable skill, identical to its original.
+- **`task check` reads the skills under `plugins/` only.** Teaching it `skills/` is part of adding the first portable skill (`CONTEXT.md`).
 - **Language**: skills, docs, code and commits are in English. A skill talks to its user in the user's language, and writes to anyone else (an agency, a landlord) in theirs.
 - **Evals** (optional): `plugins/<plugin>/skills/<skill>/evals/evals.json`, in the agentskills.io format. Run outputs go in `<skill>-workspace/` beside the skill, which git ignores and `task zip` leaves out. The suffix is reserved: `check-marketplace` skips those directories and refuses a skill whose name ends in `-workspace`.
