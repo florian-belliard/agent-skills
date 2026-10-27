@@ -81,6 +81,11 @@ tasks:
         echo "No plugin at plugins/$PLUGIN"
         exit 1
       fi
+      # The zip takes tracked files only: an untracked manifest would upload a plugin without it.
+      if ! git ls-files --error-unmatch -- "plugins/$PLUGIN/.claude-plugin/plugin.json" >/dev/null 2>&1; then
+        echo "plugins/$PLUGIN is not tracked by git: git add it first"
+        exit 1
+      fi
       mkdir -p dist
       rm -f "dist/$PLUGIN.zip"
       # Only what git tracks: a stray local file (notes, a .env, eval runs) never reaches the upload.
