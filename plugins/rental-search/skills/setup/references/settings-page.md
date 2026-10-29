@@ -74,4 +74,4 @@ Created at the very start of the setup (title gets " (test)" in test mode), fill
 - Last rules check = <date>
 ~~~
 
-Write the Schema block in full at step 4 (every key and option of the Listings, Criteria and Run log tables in `notion-workspace.md`), never with "...". The Gmail queries carry **no time window**: `run` adds `after:<T>` itself. In `Human mail query`, the relayed-messages clause (`from:(…) subject:(…)`) lists only the sender domains of the sites picked at step 5.1 (`alerts-in-browser.md` › 5.1).
+Write the Schema block in full at step 4 (every key and option of the Listings, Criteria and Run log tables in `notion-workspace.md`), never with "...". The Gmail queries carry **no time window**: `run` adds its own `after:` (a day). In `Human mail query`, the relayed-messages clause (`from:(…) subject:(…)`) lists only the sender domains of the sites picked at step 5.1 (`alerts-in-browser.md` › 5.1).

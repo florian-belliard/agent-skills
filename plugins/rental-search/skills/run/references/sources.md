@@ -38,7 +38,7 @@ Card text carries: rent CC, rooms, bedrooms, surface, **floor** (`Étage 3/8`, `
 
 ## 2. Alert mails (every mode)
 
-Search Gmail with the alerts query from Settings plus `after:<T>`; open only messages received after T, with `get_thread` and `messageFormat: PLAIN_TEXT` (previews truncate). Then the same with the human-mail query, which covers the address used for applications.
+Search Gmail with the alerts query from Settings plus `after:` the day before T (SKILL.md, Step 0, item 5: a day, never epoch seconds); open only messages received after T, with `get_thread` and `messageFormat: PLAIN_TEXT` (previews truncate). Then the same with the human-mail query, which covers the address used for applications.
 
 - **Read the body, never decide on the subject.** SeLoger subjects can name an arrondissement that has nothing to do with the listings inside.
 - Set `source` from the original sender:
